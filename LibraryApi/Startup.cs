@@ -4,7 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using AutoMapper;
 using LibraryApi.Domain;
+using LibraryApi.Profiles;
 using LibraryApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,6 +43,17 @@ namespace LibraryApi
 
                 options.UseSqlServer(Configuration.GetConnectionString("LibraryDatabase"))
             ) ;
+
+            services.AddScoped<IMapBooks, BooksEfMapper>();
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new BooksProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+
+            services.AddSingleton<IMapper>(mapper);
+            services.AddSingleton<MapperConfiguration>(mappingConfig);
 
             services.AddSwaggerGen(c =>
             {
