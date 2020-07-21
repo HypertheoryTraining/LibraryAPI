@@ -57,8 +57,7 @@ namespace LibraryApiIntegrationTests
                     {
                         options.UseInMemoryDatabase("TACO SALAD");
                         options.UseInternalServiceProvider(serviceProvider);
-                    }
-                    );
+                    });
 
                 }
 

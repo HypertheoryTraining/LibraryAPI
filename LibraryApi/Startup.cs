@@ -55,6 +55,12 @@ namespace LibraryApi
             services.AddSingleton<IMapper>(mapper);
             services.AddSingleton<MapperConfiguration>(mappingConfig);
 
+            services.AddTransient<ILookupOnCallDevelopers, TeamsOnCallDeveloperLookup>();
+
+            services.AddDistributedRedisCache(options =>
+            {
+                options.Configuration = Configuration.GetValue<string>("redisHost");
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
